@@ -1,0 +1,1 @@
+CREATE TYPE company_size AS ENUM ('startup', 'small', 'middle', 'big');
