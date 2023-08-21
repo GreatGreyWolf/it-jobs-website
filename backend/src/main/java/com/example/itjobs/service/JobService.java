@@ -2,6 +2,7 @@ package com.example.itjobs.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
 import java.util.List;
@@ -25,6 +26,10 @@ public class JobService {
 
     public List<Job> getAllJobs() {
         return JobRepository.findAll();
+    }
+
+    public List<Job> findAll(Specification<Job> specification) {
+        return JobRepository.findAll(specification);
     }
 
     public Optional<Job> getJobById(Long id) {
