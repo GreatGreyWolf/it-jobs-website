@@ -36,8 +36,19 @@ public class JobService {
         return JobRepository.findById(id);
     }
 
-    public Job saveJob(Job Job) {
-        return JobRepository.save(Job);
+    public Job saveJob(Job job) {
+        validateJob(job);
+        return JobRepository.save(job);
+    }
+
+    private void validateJob(Job job) {
+        if (job.getSalaryMin() > job.getSalaryMax()) {
+            throw new IllegalArgumentException("Salary minimum cannot be greater than salary maximum");
+        }
+
+        if (job.getWorkPercentageMin() > job.getWorkPercentageMax()) {
+            throw new IllegalArgumentException("Work percentage minimum cannot be greater than work percentage maximum");
+        }
     }
 
     public void deleteJob(Long id) {

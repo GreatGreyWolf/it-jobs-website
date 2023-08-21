@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +19,7 @@ import java.util.Optional;
 import com.example.itjobs.service.JobService;
 import com.example.itjobs.specification.JobSpecification;
 import com.example.itjobs.entity.Job;
+import com.example.itjobs.helper.ParamConfig;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -29,115 +33,21 @@ public class JobController {
     }
 
     @GetMapping
-    public List<Job> getAllJobs(
-            @RequestParam(required = false) String category_name,
-            @RequestParam(required = false) String technology_name,
-            @RequestParam(required = false) String role_name,
-            @RequestParam(required = false) String company_name,
-            @RequestParam(required = false) String company_size,
-            @RequestParam(required = false) String company_type,
-            @RequestParam(required = false) String industry,
-            @RequestParam(required = false) String employment_type_name,
-            @RequestParam(required = false) String goodie_name,
-            @RequestParam(required = false) String level_name,
-            @RequestParam(required = false) String language_name,
-            @RequestParam(required = false) String profession_name,
-            @RequestParam(required = false) String certificate_name,
-            @RequestParam(required = false) String method_name,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) String todo,
-            @RequestParam(required = false) String location,
-            @RequestParam(required = false) Integer salary_min,
-            @RequestParam(required = false) Integer salary_max,
-            @RequestParam(required = false) Integer work_percentage_min,
-            @RequestParam(required = false) Integer work_percentage_max) {
-        Specification<Job> spec = createSpecification(
-                category_name, technology_name, role_name, company_name,
-                company_size, company_type, industry, employment_type_name,
-                goodie_name, level_name, language_name, profession_name,
-                certificate_name, method_name, title, description, todo,
-                location, salary_min, salary_max, work_percentage_min, work_percentage_max
-        // ... Pass more parameters as needed
-        );
+    public List<Job> getAllJobs(HttpServletRequest request) {
+        Specification<Job> spec = createSpecification(request);
         return jobService.findAll(spec);
     }
 
-    private Specification<Job> createSpecification(
-            String category_name, String technology_name, String role_name,
-            String company_name, String company_size, String company_type,
-            String industry, String employment_type_name, String goodie_name,
-            String level_name, String language_name, String profession_name,
-            String certificate_name, String method_name, String title,
-            String description, String todo, String location,
-            Integer salary_min, Integer salary_max, Integer work_percentage_min, Integer work_percentage_max) {
+    private Specification<Job> createSpecification(HttpServletRequest request) {
         List<Specification<Job>> specs = new ArrayList<>();
 
-        if (category_name != null) {
-            specs.add(new JobSpecification("category_name", "EQUAL", category_name));
-        }
-        if (technology_name != null) {
-            specs.add(new JobSpecification("technology_name", "EQUAL", technology_name));
-        }
-        if (role_name != null) {
-            specs.add(new JobSpecification("role_name", "EQUAL", role_name));
-        }
-        if (company_name != null) {
-            specs.add(new JobSpecification("company_name", "EQUAL", company_name));
-        }
-        if (company_size != null) {
-            specs.add(new JobSpecification("company_size", "EQUAL", company_size));
-        }
-        if (company_type != null) {
-            specs.add(new JobSpecification("company_type", "EQUAL", company_type));
-        }
-        if (industry != null) {
-            specs.add(new JobSpecification("industry", "EQUAL", industry));
-        }
-        if (employment_type_name != null) {
-            specs.add(new JobSpecification("employment_type_name", "EQUAL", employment_type_name));
-        }
-        if (goodie_name != null) {
-            specs.add(new JobSpecification("goodie_name", "EQUAL", goodie_name));
-        }
-        if (level_name != null) {
-            specs.add(new JobSpecification("level_name", "EQUAL", level_name));
-        }
-        if (language_name != null) {
-            specs.add(new JobSpecification("language_name", "EQUAL", language_name));
-        }
-        if (profession_name != null) {
-            specs.add(new JobSpecification("profession_name", "EQUAL", profession_name));
-        }
-        if (certificate_name != null) {
-            specs.add(new JobSpecification("certificate_name", "EQUAL", certificate_name));
-        }
-        if (method_name != null) {
-            specs.add(new JobSpecification("method_name", "EQUAL", method_name));
-        }
-        if (title != null) {
-            specs.add(new JobSpecification("title", "LIKE", title));
-        }
-        if (description != null) {
-            specs.add(new JobSpecification("description", "LIKE", description));
-        }
-        if (todo != null) {
-            specs.add(new JobSpecification("todo", "LIKE", todo));
-        }
-        if (location != null) {
-            specs.add(new JobSpecification("location", "EQUAL", location));
-        }
-        if (salary_min != null) {
-            specs.add(new JobSpecification("salary_min", "GREATER_THAN_OR_EQUAL", salary_min));
-        }
-        if (salary_max != null) {
-            specs.add(new JobSpecification("salary_max", "LESS_THAN_OR_EQUAL", salary_max));
-        }
-        if (work_percentage_min != null) {
-            specs.add(new JobSpecification("work_percentage_min", "GREATER_THAN_OR_EQUAL", work_percentage_min));
-        }
-        if (work_percentage_max != null) {
-            specs.add(new JobSpecification("work_percentage_max", "LESS_THAN_OR_EQUAL", work_percentage_max));
+        for (Map.Entry<String, ParamConfig> entry : PARAM_CONFIG_MAP.entrySet()) {
+            String paramName = entry.getKey();
+            ParamConfig config = entry.getValue();
+            String paramValue = request.getParameter(paramName);
+            if (paramValue != null) {
+                specs.add(new JobSpecification(config.getDbColumn(), config.getOperation(), paramValue));
+            }
         }
 
         Specification<Job> finalSpec = null;
@@ -151,6 +61,40 @@ public class JobController {
         return finalSpec;
     }
 
+    private static final Map<String, ParamConfig> PARAM_CONFIG_MAP;
+
+static {
+    Map<String, ParamConfig> tempMap = new HashMap<>();
+
+    tempMap.put("categoryName", new ParamConfig("EQUAL", "methodCategory.categoryName"));
+    tempMap.put("companyName", new ParamConfig("EQUAL", "company.companyName"));
+    tempMap.put("companySize", new ParamConfig("EQUAL", "company.companySize"));
+    tempMap.put("companyType", new ParamConfig("EQUAL", "company.companyType"));
+    tempMap.put("employmentTypeName", new ParamConfig("EQUAL", "employmentType.employmentTypeName"));
+    tempMap.put("industry", new ParamConfig("EQUAL", "company.industry"));
+    tempMap.put("levelName", new ParamConfig("EQUAL", "experienceLevel.levelName"));
+    tempMap.put("roleName", new ParamConfig("EQUAL", "role.roleName"));
+
+    tempMap.put("languageName", new ParamConfig("EQUAL", "jobRequirement.languages.languageName"));
+    tempMap.put("professionName", new ParamConfig("EQUAL", "jobRequirement.professions.professionName"));
+    tempMap.put("certificateName", new ParamConfig("EQUAL", "jobRequirement.certificates.certificateName"));
+
+    tempMap.put("technologyName", new ParamConfig("EQUAL", "technologies.technologyName"));
+    tempMap.put("methodName", new ParamConfig("EQUAL", "methods.methodName"));
+    tempMap.put("goodieName", new ParamConfig("EQUAL", "goodies.goodieName"));
+
+    tempMap.put("title", new ParamConfig("LIKE", "title"));
+    tempMap.put("description", new ParamConfig("LIKE", "description"));
+    tempMap.put("todo", new ParamConfig("LIKE", "todo"));
+    tempMap.put("location", new ParamConfig("EQUAL", "location"));
+    tempMap.put("salaryMin", new ParamConfig("LESS_THAN_OR_EQUAL", "salaryMax"));
+    tempMap.put("salaryMax", new ParamConfig("GREATER_THAN_OR_EQUAL", "salaryMin"));
+    tempMap.put("workPercentageMin", new ParamConfig("LESS_THAN_OR_EQUAL", "workPercentageMax"));
+    tempMap.put("workPercentageMax", new ParamConfig("GREATER_THAN_OR_EQUAL", "workPercentageMin"));
+
+    PARAM_CONFIG_MAP = Collections.unmodifiableMap(tempMap);
+}
+
     @GetMapping("/{id}")
     public ResponseEntity<Job> getJobById(@PathVariable Long id) {
         Optional<Job> job = jobService.getJobById(id);
@@ -163,8 +107,12 @@ public class JobController {
 
     @PostMapping
     public ResponseEntity<Job> createJob(@Valid @RequestBody Job job) {
-        Job createdJob = jobService.saveJob(job);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdJob);
+        try {
+            Job createdJob = jobService.saveJob(job);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdJob);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @PutMapping("/{id}")
@@ -173,8 +121,12 @@ public class JobController {
             return ResponseEntity.notFound().build();
         }
         updatedJob.setId(id);
-        Job savedJob = jobService.saveJob(updatedJob);
-        return ResponseEntity.ok(savedJob);
+        try {
+            Job savedJob = jobService.saveJob(updatedJob);
+            return ResponseEntity.ok(savedJob);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
