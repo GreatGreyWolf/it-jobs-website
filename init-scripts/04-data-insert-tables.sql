@@ -110,12 +110,12 @@ INSERT INTO JobRequirement (experience_level_id, requirement_description) VALUES
 (3, 'Experience with Kubernetes and Docker is a must.');                                              -- Experience for DevOps Engineer
 
 -- Jobs
-INSERT INTO Job (title, description, todo, location, salary, work_percentage, category_id, role_id, company_id, employment_type_id, requirement_id) VALUES
-('Java Developer', 'Develop and maintain Java applications', 'Implement new features, Fix bugs', 'New York', 70000, 100, 1, 5, 1, 1, 1),
-('Angular Developer', 'Frontend development with Angular', 'Design responsive UIs', 'Los Angeles', 65000, 100, 1, 3, 2, 1, 2),
-('Python Developer', 'Backend development with Python', 'Develop microservices', 'San Francisco', 80000, 100, 1, 4, 3, 1, 3),
-('React Developer', 'UI development with React', 'Work with the UX team', 'Chicago', 75000, 100, 1, 3, 4, 1, 4),
-('DevOps Engineer', 'Manage infrastructure and deployments', 'Implement CI/CD pipelines', 'Boston', 85000, 100, 1, 1, 5, 1, 5);
+INSERT INTO Job (title, description, todo, location, salary_min, salary_max, work_percentage_min, work_percentage_max, category_id, role_id, company_id, employment_type_id, requirement_id) VALUES
+('Java Developer', 'Develop and maintain Java applications', 'Implement new features, Fix bugs', 'New York', 70000, 90000, 100, 100, 1, 5, 1, 1, 1),
+('Angular Developer', 'Frontend development with Angular', 'Design responsive UIs', 'Los Angeles', 55000, 65000, 80, 100, 1, 3, 2, 1, 2),
+('Python Developer', 'Backend development with Python', 'Develop microservices', 'San Francisco', 80000, 100000, 100, 100, 1, 4, 3, 1, 3),
+('React Developer', 'UI development with React', 'Work with the UX team', 'Chicago', 45000, 75000, 60, 100, 1, 3, 4, 1, 4),
+('DevOps Engineer', 'Manage infrastructure and deployments', 'Implement CI/CD pipelines', 'Boston', 55000, 85000, 40, 80, 1, 1, 5, 1, 5);
 -- Requirement Language
 INSERT INTO RequirementLanguage (requirement_id, language_id) VALUES
 (1, 1),  -- English and

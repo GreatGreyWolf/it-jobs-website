@@ -108,8 +108,10 @@ CREATE TABLE Job (
   description TEXT,
   todo TEXT,
   location VARCHAR(255),
-  salary NUMERIC(10,2),
-  work_percentage INTEGER,
+  salary_min INTEGER,
+  salary_max INTEGER,
+  work_percentage_min INTEGER,
+  work_percentage_max INTEGER,
   category_id INTEGER,
   role_id INTEGER,
   company_id INTEGER,
@@ -151,31 +153,31 @@ CREATE TABLE JobMethod (
 
 -- Filter Table
 CREATE TABLE Filter (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    keyword_search TEXT,
-    location TEXT,  -- Comma-separated values for multiple locations
-    salary_min NUMERIC(10,2),
-    salary_max NUMERIC(10,2),
-    work_percentage_min INTEGER,
-    work_percentage_max INTEGER,
-    goodie TEXT,  -- Comma-separated values for multiple goodies
-    company_id INTEGER REFERENCES Company(id),
-    employment_type_id INTEGER REFERENCES EmploymentType(id),
-    role_id INTEGER REFERENCES Role(id),
-    technology_id INTEGER REFERENCES Technology(id),
-    method_id INTEGER REFERENCES Method(id),
-    experience_level_id INTEGER REFERENCES ExperienceLevel(id),
-    language_id INTEGER REFERENCES Language(id),
-    profession_id INTEGER REFERENCES Profession(id),
-    certificate_id INTEGER REFERENCES Certificate(id)
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  keyword_search TEXT,
+  location TEXT,  -- Comma-separated values for multiple locations
+  salary_min NUMERIC(10,2),
+  salary_max NUMERIC(10,2),
+  work_percentage_min INTEGER,
+  work_percentage_max INTEGER,
+  goodie TEXT,  -- Comma-separated values for multiple goodies
+  company_id INTEGER REFERENCES Company(id),
+  employment_type_id INTEGER REFERENCES EmploymentType(id),
+  role_id INTEGER REFERENCES Role(id),
+  technology_id INTEGER REFERENCES Technology(id),
+  method_id INTEGER REFERENCES Method(id),
+  experience_level_id INTEGER REFERENCES ExperienceLevel(id),
+  language_id INTEGER REFERENCES Language(id),
+  profession_id INTEGER REFERENCES Profession(id),
+  certificate_id INTEGER REFERENCES Certificate(id)
 );
 
 
 -- Subscription Table
 CREATE TABLE Subscription (
-    id SERIAL PRIMARY KEY,
-    filter_id INTEGER REFERENCES Filter(id),
-    email VARCHAR(255) NOT NULL,
-    last_notified_on TIMESTAMP
+  id SERIAL PRIMARY KEY,
+  filter_id INTEGER REFERENCES Filter(id),
+  email VARCHAR(255) NOT NULL,
+  last_notified_on TIMESTAMP
 );
