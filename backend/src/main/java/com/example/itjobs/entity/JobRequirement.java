@@ -1,10 +1,36 @@
 package com.example.itjobs.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "jobrequirement")
 public class JobRequirement {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "requirement_description")
+    private String requirementDescription;
+
+    @ManyToOne
+    @JoinColumn(name = "experience_level_id")
+    private ExperienceLevel experienceLevel;
+
+    @ManyToMany
+    @JoinTable(name = "requirementlanguage", joinColumns = @JoinColumn(name = "requirement_id"), inverseJoinColumns = @JoinColumn(name = "language_id"))
+    private Set<Language> languages = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "requirementcertificate", joinColumns = @JoinColumn(name = "requirement_id"), inverseJoinColumns = @JoinColumn(name = "certificate_id"))
+    private Set<Certificate> certificates = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "requirementprofession", joinColumns = @JoinColumn(name = "requirement_id"), inverseJoinColumns = @JoinColumn(name = "profession_id"))
+    private Set<Profession> professions = new HashSet<>();
 
     /**
      * @return the id
@@ -18,6 +44,20 @@ public class JobRequirement {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the requirementDescription
+     */
+    public String getRequirementDescription() {
+        return requirementDescription;
+    }
+
+    /**
+     * @param requirementDescription the requirementDescription to set
+     */
+    public void setRequirementDescription(String requirementDescription) {
+        this.requirementDescription = requirementDescription;
     }
 
     /**
@@ -35,27 +75,44 @@ public class JobRequirement {
     }
 
     /**
-     * @return the requirementDescription
+     * @return the languages
      */
-    public String getRequirementDescription() {
-        return requirementDescription;
+    public Set<Language> getLanguages() {
+        return languages;
     }
 
     /**
-     * @param requirementDescription the requirementDescription to set
+     * @param languages the languages to set
      */
-    public void setRequirementDescription(String requirementDescription) {
-        this.requirementDescription = requirementDescription;
+    public void setLanguages(Set<Language> languages) {
+        this.languages = languages;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    /**
+     * @return the certificates
+     */
+    public Set<Certificate> getCertificates() {
+        return certificates;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "experience_level_id")
-    private ExperienceLevel experienceLevel;
+    /**
+     * @param certificates the certificates to set
+     */
+    public void setCertificates(Set<Certificate> certificates) {
+        this.certificates = certificates;
+    }
 
-    @Column(name = "requirement_description")
-    private String requirementDescription;
+    /**
+     * @return the professions
+     */
+    public Set<Profession> getProfessions() {
+        return professions;
+    }
+
+    /**
+     * @param professions the professions to set
+     */
+    public void setProfessions(Set<Profession> professions) {
+        this.professions = professions;
+    }
 }
