@@ -87,10 +87,10 @@ static {
     tempMap.put("description", new ParamConfig("LIKE", "description"));
     tempMap.put("todo", new ParamConfig("LIKE", "todo"));
     tempMap.put("location", new ParamConfig("EQUAL", "location"));
-    tempMap.put("salaryMin", new ParamConfig("LESS_THAN_OR_EQUAL", "salaryMax"));
-    tempMap.put("salaryMax", new ParamConfig("GREATER_THAN_OR_EQUAL", "salaryMin"));
-    tempMap.put("workPercentageMin", new ParamConfig("LESS_THAN_OR_EQUAL", "workPercentageMax"));
-    tempMap.put("workPercentageMax", new ParamConfig("GREATER_THAN_OR_EQUAL", "workPercentageMin"));
+    tempMap.put("salaryMin", new ParamConfig("GREATER_THAN_OR_EQUAL", "salaryMax"));
+    tempMap.put("salaryMax", new ParamConfig("LESS_THAN_OR_EQUAL", "salaryMin"));
+    tempMap.put("workPercentageMin", new ParamConfig("GREATER_THAN_OR_EQUAL", "workPercentageMax"));
+    tempMap.put("workPercentageMax", new ParamConfig("LESS_THAN_OR_EQUAL", "workPercentageMin"));
 
     PARAM_CONFIG_MAP = Collections.unmodifiableMap(tempMap);
 }
