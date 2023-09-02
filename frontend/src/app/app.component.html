@@ -1,4 +1,4 @@
 <div class="container mt-5">
-  <app-search-filters></app-search-filters>
-  <app-job-list></app-job-list>
+  <app-search-filters (filtersChanged)="onFiltersChanged($event)"></app-search-filters>
+  <app-job-list [filters]="filters"></app-job-list>
 </div>

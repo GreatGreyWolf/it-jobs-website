@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'it-jobs_website';
+
+  filters: any = {};
+
+  onFiltersChanged(newFilters: any) {
+    this.filters = newFilters;
+  }
+
 }
