@@ -1,6 +1,6 @@
 <form (ngSubmit)="applyFilters()">
   <autocomplete-chips-component *ngIf="languages.length > 0" [dataSource]="languages"
-    [htmlPlaceHolder]="'New language...'" [displayProperty]="'languageName'" (itemsChanged)="onLanguagesChanged($event)"></autocomplete-chips-component>
+    [placeholder]="'New language...'" [displayProperty]="'languageName'" (itemsChanged)="onLanguagesChanged($event)"></autocomplete-chips-component>
 
   <div class="range-slider-container">
     <label>Salary Range:</label>

@@ -14,7 +14,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class AutocompleteChipsComponent implements OnInit {
   @Input() dataSource: any[] = [];
-  @Input() htmlPlaceHolder: string = '';
+  @Input() placeholder: string = '';
   @Input() displayProperty: string = '';
 
   visible = true;
