@@ -6,11 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class JobService {
-  private API_URL = 'http://localhost:8080/api/jobs';
+  private baseUrl: string = 'http://localhost:8080/api/';
 
   constructor(private http: HttpClient) { }
 
-  getJobs(): Observable<any> {
-    return this.http.get(this.API_URL);
+  getJobs(filters = {}): Observable<any> {
+    return this.http.get(`${this.baseUrl}jobs`, { params: filters });
+  }
+
+  getLanguages(): Observable<Array<{id: number, languageName: string}>> {
+    return this.http.get<Array<{id: number, languageName: string}>>(`${this.baseUrl}languages`);
+  }
+
+  getRoles(): Observable<Array<{id: number, roleName: string}>> {
+    return this.http.get<Array<{id: number, roleName: string}>>(`${this.baseUrl}roles`);
   }
 }

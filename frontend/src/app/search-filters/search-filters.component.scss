@@ -1,0 +1,26 @@
+.range-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; // For spacing between the elements
+
+    label {
+        flex-shrink: 0; // Ensures the label doesn't shrink if there's less space
+    }
+
+    .range-input::-webkit-inner-spin-button,
+    .range-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .range-input {
+        width: 70px; // Adjust according to your preference
+        text-align: center; // Center the input text
+        -moz-appearance: textfield;
+    }
+
+    mat-slider {
+        width: auto;
+        margin: 0;
+    }
+}

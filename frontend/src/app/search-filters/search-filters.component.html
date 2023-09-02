@@ -1,5 +1,44 @@
-<p>search-filters works!</p>
-<input [(ngModel)]="title" placeholder="Job Title">
-<input [(ngModel)]="company_name" placeholder="Company Name">
-<!-- Add more filters as needed -->
-<button (click)="applyFilters()">Apply Filters</button>
+<form (ngSubmit)="applyFilters()">
+  <autocomplete-chips-component *ngIf="languages.length > 0" [dataSource]="languages"
+    [htmlPlaceHolder]="'New language...'" [displayProperty]="'languageName'" (itemsChanged)="onLanguagesChanged($event)"></autocomplete-chips-component>
+
+  <div class="range-slider-container">
+    <label>Salary Range:</label>
+    <input class="range-input" [(ngModel)]="salaryMin" name="salaryMin" type="number">
+    <mat-slider [min]="0" [max]="200000" step="1000">
+      <input [(ngModel)]="salaryMin" name="salaryMin" matSliderStartThumb>
+      <input [(ngModel)]="salaryMax" name="salaryMax" matSliderEndThumb>
+    </mat-slider>
+    <input class="range-input" [(ngModel)]="salaryMax" name="salaryMax" type="number">
+  </div>
+
+  <div class="range-slider-container">
+    <label>Work Percentage:</label>
+    <div>{{workPercentageMin}}%</div>
+    <mat-slider [min]="10" [max]="100" step="10" showTickMarks>
+      <input [(ngModel)]="workPercentageMin" name="workPercentageMin" matSliderStartThumb>
+      <input [(ngModel)]="workPercentageMax" name="workPercentageMax" matSliderEndThumb>
+    </mat-slider>
+    <div>{{workPercentageMax}}%</div>
+  </div>
+
+  <div class="form-group">
+    <input [(ngModel)]="keyword" name="keyword" placeholder="Keyword Search">
+
+    <input [(ngModel)]="location" name="location" placeholder="Location">
+    <input [(ngModel)]="languageName" name="languageName" placeholder="Language">
+    <input [(ngModel)]="employmentTypeName" name="employmentTypeName" placeholder="Employment Type">
+    <input [(ngModel)]="roleName" name="roleName" placeholder="Role">
+    <input [(ngModel)]="technologyName" name="technology" placeholder="Technology">
+    <input [(ngModel)]="categoryName" name="categoryName" placeholder="Category">
+    <input [(ngModel)]="methodName" name="methodName" placeholder="Method">
+    <input [(ngModel)]="professionName" name="professionName" placeholder="Profession">
+    <input [(ngModel)]="certificateName" name="certificateName" placeholder="Certificate">
+
+    <input [(ngModel)]="companyName" name="companyName" placeholder="Company Name">
+    <input [(ngModel)]="companyType" name="companyType" placeholder="Company Type">
+    <input [(ngModel)]="goodieName" name="goodieName" placeholder="Company Goodies">
+  </div>
+
+  <button type="submit">Search</button>
+</form>
