@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { JobService } from '../job.service';
+import { cleanFilters } from '../utils/clean-filters'
 
 @Component({
   selector: 'app-job-list',
@@ -9,6 +10,8 @@ import { JobService } from '../job.service';
 export class JobListComponent implements OnInit {
   jobs: any[] = [];
 
+  @Input() filters: any = {};
+
   constructor(private jobService: JobService) { }
 
   ngOnInit(): void {
@@ -17,12 +20,19 @@ export class JobListComponent implements OnInit {
     });
   }
 
-  filters = {};
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters'] && !changes['filters'].firstChange) {
+      this.onFiltersChanged(this.filters);
+    }
+  }
 
-  onFiltersChanged(event: any) {
-    this.filters = event;
-    // Now, you can call the service again with filters or filter the jobs array directly.
-    // Ideally, you'd modify the service to accept these filters and return filtered data.
+
+  onFiltersChanged(filters: any) {
+    const cleanedFilters = cleanFilters(filters);
+    // Fetch the filtered jobs using the service
+    this.jobService.getJobs(cleanedFilters).subscribe(data => {
+      this.jobs = data;
+    });
   }
 
 }
