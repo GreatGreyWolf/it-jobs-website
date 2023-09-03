@@ -3,6 +3,10 @@
     [displayProperty]="'languageName'" identifier="languageName"
     (itemsChanged)="handleChipSelection($event)"></autocomplete-chips-component>
 
+    <custom-autocomplete *ngIf="roles.length > 0" [options]="roles" placeholder="Pick a role" label="Roles"
+      identifier="roleName" (optionSelected)="handleDropDownSelection($event)">
+    </custom-autocomplete>
+
   <div class="range-slider-container">
     <label>Salary Range:</label>
     <input class="range-input" [(ngModel)]="salaryMin" name="salaryMin" type="number">

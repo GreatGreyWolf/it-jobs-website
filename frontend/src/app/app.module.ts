@@ -24,6 +24,7 @@ import { JobListComponent } from './job-list/job-list.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { SearchFiltersComponent } from './search-filters/search-filters.component';
 
+import { CustomAutocompleteComponent  } from './search-filters/autocomplete/custom-autocomplete.component';
 import { AutocompleteChipsComponent  } from './search-filters/chips/autocomplete-chips-component';
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AutocompleteChipsComponent  } from './search-filters/chips/autocomplete
     JobListComponent,
     JobDetailsComponent,
     SearchFiltersComponent,
-    AutocompleteChipsComponent
+    AutocompleteChipsComponent,
+    CustomAutocompleteComponent
   ],
   imports: [
     BrowserModule,

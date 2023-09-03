@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/cor
 
 import { JobService } from '../job.service';
 import { AutocompleteChipsComponent } from './chips/autocomplete-chips-component';
+import { CustomAutocompleteComponent } from './autocomplete/custom-autocomplete.component';
 
 @Component({
   selector: 'app-search-filters',
@@ -36,7 +37,7 @@ export class SearchFiltersComponent implements OnInit {
 
   selectedValues: { [key: string]: string | string[] } = {};
 
-  @ViewChild('rolesChips', { static: false }) rolesChips!: AutocompleteChipsComponent;
+  @ViewChild('rolesAC', { static: false }) rolesAC!: CustomAutocompleteComponent;
   @ViewChild('languagesChips', { static: false }) languagesChips!: AutocompleteChipsComponent;
 
   constructor(private jobService: JobService) { // inject the service here
@@ -71,6 +72,12 @@ export class SearchFiltersComponent implements OnInit {
     (this as any)[data.identifier] = data.items;
   }
 
+  handleDropDownSelection(data: { identifier: string, value: string }) {
+    console.log(data); // Log the entire data object
+    console.log("Selected value for", data.identifier, ":", data.value);
+    (this as any)[data.identifier] = data.value;
+  }
+
   @Output() filtersChanged = new EventEmitter<any>();
 
   applyFilters() {
@@ -78,7 +85,7 @@ export class SearchFiltersComponent implements OnInit {
       keyword: this.keyword,
       location: this.location,
       languageName: this.languageName,
-      roleName: this.rolesChips,
+      roleName: this.roleName,
       employmentTypeName: this.employmentTypeName,
       technologyName: this.technologyName,
       methodName: this.methodName,
