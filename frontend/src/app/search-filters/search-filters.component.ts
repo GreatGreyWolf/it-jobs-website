@@ -1,7 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 
 import { JobService } from '../job.service';
 import { AutocompleteChipsComponent } from './chips/autocomplete-chips-component';
@@ -37,20 +34,12 @@ export class SearchFiltersComponent implements OnInit {
   workPercentageMax = 100;
   location!: string;
 
-  titleControl = new FormControl();
-  titles: string[] = ['Java Developer', 'Angular Developer'];
-  filteredTitles: Observable<string[]>;
-
-  languageInputControl = new FormControl();
+  selectedValues: { [key: string]: string | string[] } = {};
 
   @ViewChild('rolesChips', { static: false }) rolesChips!: AutocompleteChipsComponent;
   @ViewChild('languagesChips', { static: false }) languagesChips!: AutocompleteChipsComponent;
 
   constructor(private jobService: JobService) { // inject the service here
-    this.filteredTitles = this.titleControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
   }
 
   ngOnInit() {
@@ -67,10 +56,6 @@ export class SearchFiltersComponent implements OnInit {
     });
   }
 
-  onLanguagesChanged(items: string[]): void {
-    this.languageName = items;
-  }
-
   fetchRoles() {
     this.jobService.getRoles().subscribe({
       next: data => {
@@ -80,16 +65,16 @@ export class SearchFiltersComponent implements OnInit {
     });
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.titles.filter(title => title.toLowerCase().includes(filterValue));
+  handleChipSelection(data: { identifier: string, items: string[] }) {
+    console.log("Selected items for", data.identifier, ":", data.items);
+    this.selectedValues[data.identifier] = data.items;
+    (this as any)[data.identifier] = data.items;
   }
 
   @Output() filtersChanged = new EventEmitter<any>();
 
   applyFilters() {
     this.filtersChanged.emit({
-      title: this.titleControl.value,
       keyword: this.keyword,
       location: this.location,
       languageName: this.languageName,

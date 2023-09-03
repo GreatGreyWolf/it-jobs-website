@@ -16,6 +16,7 @@ export class AutocompleteChipsComponent implements OnInit {
   @Input() dataSource: any[] = [];
   @Input() placeholder: string = '';
   @Input() displayProperty: string = '';
+  @Input() identifier: string = '';
 
   visible = true;
   selectable = true;
@@ -25,7 +26,7 @@ export class AutocompleteChipsComponent implements OnInit {
   ItemCtrl = new FormControl();
   filteredItems!: Observable<string[]>;
   availableItems: string[] = [];
-  @Output() itemsChanged = new EventEmitter<string[]>();
+  @Output() itemsChanged = new EventEmitter<{ identifier: string, items: string[] }>();
   selectedItems: string[] = [];
 
   @ViewChild('itemInput', { static: false }) itemInput!: ElementRef<HTMLInputElement>;
@@ -51,7 +52,7 @@ export class AutocompleteChipsComponent implements OnInit {
 
     if ((value || '').trim() && !this.selectedItems.includes(value.trim()) && this.isInDataSource(value.trim())) {
       this.selectedItems.push(value.trim());
-      this.itemsChanged.emit(this.selectedItems);
+      this.itemsChanged.emit({ identifier: this.identifier, items: this.selectedItems });
     }
 
     if (input) {
@@ -66,7 +67,7 @@ export class AutocompleteChipsComponent implements OnInit {
 
     if (index >= 0) {
       this.selectedItems.splice(index, 1);
-      this.itemsChanged.emit(this.selectedItems);
+      this.itemsChanged.emit({ identifier: this.identifier, items: this.selectedItems });
     }
   }
 
@@ -75,7 +76,7 @@ export class AutocompleteChipsComponent implements OnInit {
 
     if (!this.selectedItems.includes(item)) {
       this.selectedItems.push(item);
-      this.itemsChanged.emit(this.selectedItems);
+      this.itemsChanged.emit({ identifier: this.identifier, items: this.selectedItems });
       this.itemInput.nativeElement.value = '';
       this.ItemCtrl.setValue(null);
     } else {
