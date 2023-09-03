@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 
 import { JobService } from '../job.service';
-import { AutocompleteChipsComponent } from './chips/autocomplete-chips-component';
+import { CustomChipsComponent } from './chips/custom-chips.component';
 import { CustomAutocompleteComponent } from './autocomplete/custom-autocomplete.component';
 
 @Component({
@@ -38,7 +38,7 @@ export class SearchFiltersComponent implements OnInit {
   selectedValues: { [key: string]: string | string[] } = {};
 
   @ViewChild('rolesAC', { static: false }) rolesAC!: CustomAutocompleteComponent;
-  @ViewChild('languagesChips', { static: false }) languagesChips!: AutocompleteChipsComponent;
+  @ViewChild('languagesChips', { static: false }) languagesChips!: CustomChipsComponent ;
 
   constructor(private jobService: JobService) { // inject the service here
   }

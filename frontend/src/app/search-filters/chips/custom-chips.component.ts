@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'autocomplete-chips-component',
-  templateUrl: 'autocomplete-chips-component.html',
-  styleUrls: ['autocomplete-chips-component.scss'],
+  selector: 'custom-chips',
+  templateUrl: 'custom-chips.component.html',
+  styleUrls: ['custom-chips.component.scss'],
 })
-export class AutocompleteChipsComponent implements OnInit {
+export class CustomChipsComponent implements OnInit {
   @Input() dataSource: any[] = [];
   @Input() placeholder: string = '';
   @Input() displayProperty: string = '';

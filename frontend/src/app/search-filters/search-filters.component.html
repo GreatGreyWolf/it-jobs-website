@@ -1,7 +1,7 @@
 <form (ngSubmit)="applyFilters()">
-  <autocomplete-chips-component *ngIf="languages.length > 0" [dataSource]="languages" [placeholder]="'New language...'"
+  <custom-chips *ngIf="languages.length > 0" [dataSource]="languages" [placeholder]="'New language...'"
     [displayProperty]="'languageName'" identifier="languageName"
-    (itemsChanged)="handleChipSelection($event)"></autocomplete-chips-component>
+    (itemsChanged)="handleChipSelection($event)"></custom-chips>
 
     <custom-autocomplete *ngIf="roles.length > 0" [options]="roles" placeholder="Pick a role" label="Roles"
       identifier="roleName" (optionSelected)="handleDropDownSelection($event)">
