@@ -1,3 +1,9 @@
+.grid-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  // This creates two equal width columns
+    gap: 16px;
+  }
+
 .range-slider-container {
     display: flex;
     align-items: center;

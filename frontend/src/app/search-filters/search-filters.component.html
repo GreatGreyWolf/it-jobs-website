@@ -1,30 +1,34 @@
 <form (ngSubmit)="applyFilters()">
-  <custom-chips *ngIf="languages.length > 0" [dataSource]="languages" [placeholder]="'New language...'"
-    [displayProperty]="'languageName'" identifier="languageName"
-    (itemsChanged)="handleChipSelection($event)"></custom-chips>
+  <div class="grid-row">
+    <custom-chips *ngIf="languages.length > 0" [dataSource]="languages" [placeholder]="'Add language...'"
+      [displayProperty]="'languageName'" identifier="languageName"
+      (itemsChanged)="handleChipSelection($event)"></custom-chips>
 
     <custom-autocomplete *ngIf="roles.length > 0" [options]="roles" placeholder="Pick a role" label="Roles"
       identifier="roleName" (optionSelected)="handleDropDownSelection($event)">
     </custom-autocomplete>
-
-  <div class="range-slider-container">
-    <label>Salary Range:</label>
-    <input class="range-input" [(ngModel)]="salaryMin" name="salaryMin" type="number">
-    <mat-slider [min]="0" [max]="200000" step="1000">
-      <input [(ngModel)]="salaryMin" name="salaryMin" matSliderStartThumb>
-      <input [(ngModel)]="salaryMax" name="salaryMax" matSliderEndThumb>
-    </mat-slider>
-    <input class="range-input" [(ngModel)]="salaryMax" name="salaryMax" type="number">
   </div>
 
-  <div class="range-slider-container">
-    <label>Work Percentage:</label>
-    <div>{{workPercentageMin}}%</div>
-    <mat-slider [min]="10" [max]="100" step="10" showTickMarks>
-      <input [(ngModel)]="workPercentageMin" name="workPercentageMin" matSliderStartThumb>
-      <input [(ngModel)]="workPercentageMax" name="workPercentageMax" matSliderEndThumb>
-    </mat-slider>
-    <div>{{workPercentageMax}}%</div>
+  <div class="grid-row">
+    <div class="range-slider-container">
+      <label>Salary Range:</label>
+      <input class="range-input" [(ngModel)]="salaryMin" name="salaryMin" type="number">
+      <mat-slider [min]="0" [max]="200000" step="1000">
+        <input [(ngModel)]="salaryMin" name="salaryMin" matSliderStartThumb>
+        <input [(ngModel)]="salaryMax" name="salaryMax" matSliderEndThumb>
+      </mat-slider>
+      <input class="range-input" [(ngModel)]="salaryMax" name="salaryMax" type="number">
+    </div>
+
+    <div class="range-slider-container">
+      <label>Work Percentage:</label>
+      <div>{{workPercentageMin}}%</div>
+      <mat-slider [min]="10" [max]="100" step="10" showTickMarks>
+        <input [(ngModel)]="workPercentageMin" name="workPercentageMin" matSliderStartThumb>
+        <input [(ngModel)]="workPercentageMax" name="workPercentageMax" matSliderEndThumb>
+      </mat-slider>
+      <div>{{workPercentageMax}}%</div>
+    </div>
   </div>
 
   <div class="form-group">
