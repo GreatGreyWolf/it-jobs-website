@@ -1,3 +1,6 @@
+-- Connect to the database
+\c it_jobs_db;
+
 -- Data Insertion
 
 -- MethodCategory
